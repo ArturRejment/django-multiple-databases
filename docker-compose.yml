@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+
+  pg_master:
+    build: ./master
+    container_name: pg_master
+    restart: always
+    volumes:
+      - master-data:/var/lib/postgresql/data
+    ports:
+      - "5400:5432"
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=${MASTER_DB_PASSWORD}'
+      - 'POSTGRES_DB=master_db'
+      - 'POSTGRES_MASTER=pg_slave_1'
+      - 'POSTGRES_REP_USER=replicator'
+      - 'POSTGRES_REP_PASSWORD=${REPLICATOR_PASSWORD}'
+    networks:
+      - databases-network
+
+  pg_slave_1:
+    build: ./slave
+    container_name: pg_slave_1
+    restart: always
+    depends_on:
+      - database
+    volumes:
+      - slave1-data:/var/lib/postgresql/data
+    ports:
+      - "5401:5432"
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=${SLAVE_1_DB_PASSWORD}'
+      - 'POSTGRES_DB=slave_1_db'
+      - 'POSTGRES_MASTER=pg_master'
+      - 'POSTGRES_REP_USER=replicator'
+      - 'POSTGRES_REP_PASSWORD=${REPLICATOR_PASSWORD}'
+    networks:
+      - databases-network
+
+volumes:
+  master-data:
+  slave1-data:
+
+networks:
+  databases-network:
+    external:
+      name: databases-network
