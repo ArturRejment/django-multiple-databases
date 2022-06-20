@@ -7,16 +7,17 @@ services:
     container_name: pg_master
     restart: always
     volumes:
-      - master-data:/var/lib/postgresql/data
+      - m-data:/var/lib/postgresql/data:z
     ports:
       - "5400:5432"
     environment:
-      - 'POSTGRES_USER=postgres'
-      - 'POSTGRES_PASSWORD=${MASTER_DB_PASSWORD}'
-      - 'POSTGRES_DB=master_db'
-      - 'POSTGRES_MASTER=pg_slave_1'
-      - 'POSTGRES_REP_USER=replicator'
-      - 'POSTGRES_REP_PASSWORD=${REPLICATOR_PASSWORD}'
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${MASTER_DB_PASSWORD}
+      - POSTGRES_DB=master_db
+
+      - POSTGRES_MASTER=pg_slave_1
+      - POSTGRES_REP_USER=replicator
+      - POSTGRES_REP_PASSWORD=${REPLICATOR_PASSWORD}
     networks:
       - databases-network
 
@@ -24,24 +25,25 @@ services:
     build: ./slave
     container_name: pg_slave_1
     restart: always
-    depends_on:
-      - database
     volumes:
       - slave1-data:/var/lib/postgresql/data
     ports:
       - "5401:5432"
     environment:
-      - 'POSTGRES_USER=postgres'
-      - 'POSTGRES_PASSWORD=${SLAVE_1_DB_PASSWORD}'
-      - 'POSTGRES_DB=slave_1_db'
-      - 'POSTGRES_MASTER=pg_master'
-      - 'POSTGRES_REP_USER=replicator'
-      - 'POSTGRES_REP_PASSWORD=${REPLICATOR_PASSWORD}'
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${SLAVE_1_DB_PASSWORD}
+      - POSTGRES_DB=slave_1_db
+
+      - POSTGRES_MASTER=pg_master
+      - POSTGRES_REP_USER=replicator
+      - POSTGRES_REP_PASSWORD=${REPLICATOR_PASSWORD}
+
+      - PG_STANDBY=true
     networks:
       - databases-network
 
 volumes:
-  master-data:
+  m-data:
   slave1-data:
 
 networks:
