@@ -3,7 +3,7 @@ version: '3'
 services:
 
   pg_master:
-    build: ./master
+    build: ./docker-build/master
     container_name: pg_master
     restart: always
     volumes:
@@ -22,7 +22,7 @@ services:
       - databases-network
 
   pg_slave_1:
-    build: ./slave
+    build: ./docker-build/slave
     container_name: pg_slave_1
     restart: always
     volumes:
