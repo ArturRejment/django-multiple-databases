@@ -42,9 +42,21 @@ services:
     networks:
       - databases-network
 
+  pg_auth:
+    image: 'postgres:12.5'
+    container_name: pg_auth
+    restart: always
+    volumes:
+      - auth-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${AUTH_DB_PASSWORD}
+      - POSTGRES_DB=auth_db
+
 volumes:
   m-data:
   slave1-data:
+  auth-data:
 
 networks:
   databases-network:
