@@ -1,5 +1,20 @@
 # django-multiple-databases
-A project, where Django application uses four different PostgreSQL databases.
+A project, where Django application uses three different PostgreSQL databases.
+First database `master` is source database where data is written.
+Second database `slave1` is replicated from master database. This database is read-only.
+Thrid database `auth_db` is for authentication. It stores users and jwt.
+
+# Run application
+
+1. Create docker network
+```
+docker network create databases-network
+```
+
+2. Build and run
+```
+docker-compose up --build -d
+```
 
 ## Problems
 

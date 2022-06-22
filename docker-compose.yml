@@ -2,8 +2,19 @@ version: '3'
 
 services:
 
+  django-app:
+    build: ./docker-build/app
+    container_name: django-app
+    volumes:
+      - ./:/app/src
+      - /app/vars
+    ports:
+      - 80:8000
+    env_file:
+      - ./project/env/.env
+
   pg_master:
-    build: ./master
+    build: ./docker-build/master
     container_name: pg_master
     restart: always
     volumes:
@@ -22,7 +33,7 @@ services:
       - databases-network
 
   pg_slave_1:
-    build: ./slave
+    build: ./docker-build/slave
     container_name: pg_slave_1
     restart: always
     volumes:
@@ -42,9 +53,21 @@ services:
     networks:
       - databases-network
 
+  pg_auth:
+    image: 'postgres:12.5'
+    container_name: pg_auth
+    restart: always
+    volumes:
+      - auth-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${AUTH_DB_PASSWORD}
+      - POSTGRES_DB=auth_db
+
 volumes:
   m-data:
   slave1-data:
+  auth-data:
 
 networks:
   databases-network:
