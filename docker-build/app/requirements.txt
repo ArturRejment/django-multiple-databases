@@ -2,6 +2,11 @@
 Django==3.2
 django-debug-toolbar==1.9.0
 
+# Typing
+mypy==0.961
+django-stubs==1.12.0
+djangorestframework-stubs==1.7.0
+
 # API
 djangorestframework==3.12.4
 
