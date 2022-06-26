@@ -31,21 +31,27 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {},
-    'authentication': {
-        'NAME': 'pg_auth',
+    'auth_db': {
         'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'pg_auth',
+        'PORT': '5432',
+        'NAME': 'auth_db',
         'USER': 'postgres',
         'PASSWORD': os.getenv('AUTH_DB_PASSWORD'),
     },
     'master': {
-        'NAME': 'pg_master',
         'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'pg_master',
+        'PORT': '5432',
+        'NAME': 'master_db',
         'USER': 'postgres',
         'PASSWORD': os.getenv('MASTER_DB_PASSWORD'),
     },
     'slave': {
-        'NAME': 'pg_slave_1',
         'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'pg_slave_1',
+        'PORT': '5432',
+        'NAME': 'master_db',
         'USER': 'postgres',
         'PASSWORD': os.getenv('SLAVE_1_DB_PASSWORD'),
     },

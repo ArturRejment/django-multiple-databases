@@ -7,7 +7,6 @@ if [ ! -s "$PGDATA/PG_VERSION" ]; then
 
 	until ping -c 1 -W 1 ${POSTGRES_MASTER}
 	do
-		echo "Waiting for master to ping..."
 		sleep 1s
 	done
 

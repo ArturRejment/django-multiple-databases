@@ -1,4 +1,4 @@
-class MasterReplicaRouter:
+class MasterSlaveRouter:
 
     def db_for_read(self, model, **hints):
         """
