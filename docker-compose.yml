@@ -18,7 +18,6 @@ services:
   pg_master:
     build: ./docker-build/master
     container_name: pg_master
-    restart: always
     volumes:
       - m-data:/var/lib/postgresql/data:z
     ports:
@@ -37,7 +36,6 @@ services:
   pg_slave_1:
     build: ./docker-build/slave
     container_name: pg_slave_1
-    restart: always
     volumes:
       - slave1-data:/var/lib/postgresql/data
     ports:
@@ -45,7 +43,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${SLAVE_1_DB_PASSWORD}
-      - POSTGRES_DB=slave_1_db
+      - POSTGRES_DB=master_db
 
       - POSTGRES_MASTER=pg_master
       - POSTGRES_REP_USER=replicator
@@ -58,7 +56,6 @@ services:
   pg_auth:
     image: 'postgres:12.5'
     container_name: pg_auth
-    restart: always
     volumes:
       - auth-data:/var/lib/postgresql/data
     environment:

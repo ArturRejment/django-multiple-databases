@@ -24,7 +24,7 @@ if [ ! -s "$PGDATA/PG_VERSION" ]; then
 
 	echo "primary_conninfo = 'host=${POSTGRES_MASTER} port=5432 user=$POSTGRES_REP_USER password=$POSTGRES_REP_PASSWORD'" > ${PGDATA}/postgresql.conf
 
-	cat ./my_postgresql.conf > ${PGDATA}/postgresql.conf
+	cat ./my_postgresql.conf >> ${PGDATA}/postgresql.conf
 
 	chown postgres. ${PGDATA} -R
 	chmod 700 ${PGDATA} -R
