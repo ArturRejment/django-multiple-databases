@@ -49,7 +49,7 @@ DATABASES = {
     },
     'slave': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'pg_slave_1',
+        'HOST': 'pg_master',
         'PORT': '5432',
         'NAME': 'master_db',
         'USER': 'postgres',
