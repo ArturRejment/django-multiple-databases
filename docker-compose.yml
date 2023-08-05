@@ -72,5 +72,5 @@ volumes:
 
 networks:
   databases-network:
-    external:
-      name: databases-network
+    name: databases-network
+    external: true
